@@ -9,9 +9,6 @@ class ServerTest < Minitest::Test
   end
 
   def test_class_prints_out_hello_world
-    skip
-    server = Server.new
-    response = Faraday.get('http://127.0.0.1:9292')
-    assert response.body.include?("Hello, World!")
+    assert_equal response.body.include?("Hello, World!"), Faraday.get('http://127.0.0.1:9292')
   end
 end
