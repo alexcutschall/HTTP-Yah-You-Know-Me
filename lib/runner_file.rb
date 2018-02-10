@@ -1,10 +1,9 @@
 require 'socket'
-require_relative 'server'
 require 'pry'
 
 tcp_server = TCPServer.new(9292)
-server_requests = 0
 
+server_requests = 0
 while client = tcp_server.accept
   server_requests += 1
 
@@ -13,6 +12,15 @@ while client = tcp_server.accept
     request_lines << line.chomp
   end
 
+  response = ["<pre>" +
+              "VERB: #{request_lines[0]}",
+              "Path: /#{request_lines[1]}",
+              "Protocol: HTTP/1.1 #{request_lines[2]}",
+              "Host: 127.0.0.1 #{request_lines[3]}",
+              "Port: 9292 #{request_lines[4]}",
+              "Origin: #{request_lines[5]}",
+              "Accept: #{{request_lines[6]}}" +
+              "</pre>"]
   output = "Hello World! (#{server_requests})"
   headers = ["http/1.1 200 ok",
              "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
