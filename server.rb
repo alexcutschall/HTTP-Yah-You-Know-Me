@@ -1,4 +1,5 @@
 require 'socket'
+require 'pry'
 #this is our server instance and listens on port 9292
 tcp_server = TCPServer.new(9292)
 listener = tcp_server.accept
@@ -6,14 +7,16 @@ listener = tcp_server.accept
 
 puts "Ready for a request"
 request_lines = []
-while line = client.gets and !line.chomp.empty?
+while line = listener.gets and !line.chomp.empty?
   request_lines << line.chomp
 end
+binding.pry
 
 #when the program runs it'll "hang" on the gets method
 #call waiting for a request to come in
 puts "Got this request:"
 puts request_lines.inspect
+binding.pry
 
 #Now it's time to build a response
 puts "Sending response."
@@ -24,10 +27,12 @@ headers = ["http/1.1 200 ok",
            "server: ruby",
            "content-type: text/html; charset=iso-8859-1",
            "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-client.puts headers
-client puts output
+           binding.pry
+listener.puts headers
+listener.puts output
 
 #Now close the server
 puts ["Wrote this response:", headers, output].join("\n")
-client.close
+binding.pry
+listener.close
 puts "\nResponse complete, exiting."
