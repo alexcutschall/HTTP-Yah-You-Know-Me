@@ -20,6 +20,7 @@ class Server
   end
 
   def start
+    @request_lines = []
     @client = server.accept
 
     while @server_loop == true
@@ -31,11 +32,11 @@ class Server
 
       puts "Received request"
 
-      response.handle_requests
-
       puts "Sent response"
 
       @total_requests += 1
+      response.handle_requests
+
     end
   end
 end

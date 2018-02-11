@@ -1,4 +1,5 @@
 require 'socket'
+require 'pry'
 
 class Response
   attr_reader :server
@@ -37,7 +38,7 @@ class Response
 
   def date_time
     date = Time.now.strftime('%I:%M on %A, %B %d, %Y')
-    output = "#{date}"
+    output = "#{date}\n#{debug_information}"
     headers = ["http/1.1 200 ok",
                 "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
                 "server: ruby",
