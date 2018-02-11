@@ -13,13 +13,7 @@ while client = server.accept
     request_lines << line.chomp
   end
 
-  response = ["VERB: #{request_lines[0].split(" ")[0]}",
-              "Path: #{request_lines[0].split(" ")[1]}",
-              "Protocol: #{request_lines[0].split(" ")[2]}",
-              "Host: #{request_lines[1][6..14]}",
-              "Port: #{request_lines[1][-4..-1]}",
-              "Origin: #{request_lines[1][6..14]}",
-              "#{request_lines[6][0..7]}\n#{request_lines[6][8..-1]}"].join("\n")
+
 
   output = "Hello World! (#{server_requests})\n#{response}"
   headers = ["http/1.1 200 ok",
