@@ -1,5 +1,2 @@
-require 'server.rb'
-require
-class Response
-
-end
+require 'socket'
+require_relative './server.rb'
