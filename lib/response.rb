@@ -58,6 +58,30 @@ class Response
      "#{server.request_lines[6][0..7]}\n#{server.request_lines[6][8..-1]}"].join("\n")
   end
 
+  def word_search
+    word = debug_information.split("\n")[1].split("?")
+    word_popped = word.shift
+    file = File.read('/usr/share/dict/words').split("\n")
+    result = word.map do |word|
+      if file.include?(word)
+        "#{word} is a known word"
+      else
+        "#{word} is not a known word"
+      end
+    end
+  
+    output = "#{result.join("\n")}"
+
+    headers = ["http/1.1 200 ok",
+                "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                "server: ruby",
+                "content-type: text/html; charset=iso-8859-1",
+                "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+
+    server.client.puts headers
+    server.client.puts output
+  end
+
   def verb
     debug_information.split("\n")[0]
   end
@@ -73,9 +97,11 @@ class Response
       debug_page
     elsif path == "/datetime"
       date_time
-    else
+    elsif path == "/shutdown"
       puts "Total Requests: #{server.total_requests}"
       server.server_loop = false
+    else
+      word_search
     end
     server.start
   end
