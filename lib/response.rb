@@ -49,13 +49,22 @@ class Response
   end
 
   def debug_information
-    ["VERB: #{server.request_lines[0].split(" ")[0]}",
-     "Path: #{server.request_lines[0].split(" ")[1]}",
-     "Protocol: #{server.request_lines[0].split(" ")[2]}",
-     "Host: #{server.request_lines[1][6..14]}",
-     "Port: #{server.request_lines[1][-4..-1]}",
-     "Origin: #{server.request_lines[1][6..14]}",
-     "#{server.request_lines[6][0..7]}\n#{server.request_lines[6][8..-1]}"].join("\n")
+    verb =  "#{server.request_lines[0].split(" ")[0]}",
+    path =  " #{server.request_lines[0].split(" ")[1]}",
+    protocol " #{server.request_lines[0].split(" ")[2]}",
+    host =  " #{server.request_lines[1][6..14]}",
+    port =  " #{server.request_lines[1][-4..-1]}",
+    origin =  " #{server.request_lines[1][6..14]}" ].join("\n")
+    "#{server.request_lines[6][0..7]}\n#{server.request_lines[6][8..-1]}"
+     "<pre>"
+     "VERB: #{verb}"
+     "Path: #{path}"
+     "Protocol: #{protocol}"
+     "Host: #{host}"
+     "Port: #{port}"
+     "Origin: #{origin}"
+     binding.pry
+     "<pre>"
   end
 
   def word_search
@@ -69,23 +78,12 @@ class Response
         "#{word} is not a known word"
       end
     end
+  end
 
     def shutdown
       puts "Total Requests: #{server.total_requests}"
       server.server_loop = false
     end
-
-    output = "#{result.join("\n")}"
-
-    headers = ["http/1.1 200 ok",
-                "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-                "server: ruby",
-                "content-type: text/html; charset=iso-8859-1",
-                "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-
-    server.client.puts headers
-    server.client.puts output
-  end
 
   def verb
     debug_information.split("\n")[0]
@@ -104,7 +102,6 @@ class Response
       date_time
     elsif path == "/shutdown"
       shutdown
-
     else
       word_search
     end
