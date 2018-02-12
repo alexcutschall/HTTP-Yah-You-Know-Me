@@ -69,7 +69,12 @@ class Response
         "#{word} is not a known word"
       end
     end
-  
+
+    def shutdown
+      puts "Total Requests: #{server.total_requests}"
+      server.server_loop = false
+    end
+
     output = "#{result.join("\n")}"
 
     headers = ["http/1.1 200 ok",
@@ -98,8 +103,8 @@ class Response
     elsif path == "/datetime"
       date_time
     elsif path == "/shutdown"
-      puts "Total Requests: #{server.total_requests}"
-      server.server_loop = false
+      shutdown
+
     else
       word_search
     end
