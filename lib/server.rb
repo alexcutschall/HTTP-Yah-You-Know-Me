@@ -23,7 +23,7 @@ class Server
     @request_lines = []
     @client = server.accept
 
-    while @server_loop == true
+    while @server_loop
 
       puts "Ready for Request"
       while line = client.gets and !line.chomp.empty?
@@ -36,9 +36,10 @@ class Server
 
       @total_requests += 1
       response.handle_requests
-
     end
+    @client.close
   end
+
 end
 
 server = Server.new
