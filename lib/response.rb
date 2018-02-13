@@ -29,9 +29,16 @@ class Response
     "<pre>\nVerb: #{verb}\nPath: #{path}\nProtocol: #{protocol}\nHost: #{host}\nPort: #{port}\nOrigin: #{origin}</pre>"
   end
 
+  def handle_requests
+    if verb == "GET"
+      handle_get_requests
+    else
+      handle_post_requests
+    end
+  end
+
   def hello
-    # debug_information
-    @output = "Hello World! (#{@hello_counter})\n#{debug_information}"
+    @output = "Hello World! (#{@hello_counter})"
     headers
     server.client.puts headers
     server.client.puts @output
@@ -39,7 +46,6 @@ class Response
   end
 
   def debug_page
-    # debug_information
     @output = "#{debug_information}"
     headers
     server.client.puts headers
@@ -53,7 +59,7 @@ class Response
     server.client.puts @output
   end
 
-#put into a separate class?
+#put into a separate class? It ONLY takes two params like this. Need to refactor
   def word_search
     word_array = []
     word = server.request_lines[0].split(" ")[1].split("?")
@@ -76,8 +82,7 @@ class Response
   end
 
     def shutdown
-      response = "Total Requests: #{server.total_requests}"
-      @output = "#{response}\n#{debug_information}"
+      @output = "Total Requests: #{server.total_requests}"
       headers
       server.client.puts headers
       server.client.puts @output
@@ -86,14 +91,14 @@ class Response
 
 
   def verb
-    debug_information.split("\n")[0]
+    "#{server.request_lines[0].split(" ")[0]}"
   end
 
   def path
     "#{server.request_lines[0].split(" ")[1]}"
   end
 
-  def handle_requests
+  def handle_get_requests
     if path == "/hello"
       hello
       server.start
@@ -105,9 +110,13 @@ class Response
       server.start
     elsif path == "/shutdown"
       shutdown
-    else
+    else path == "/word"
       word_search
       server.start
     end
+  end
+
+  def handle_post_requests
+
   end
 end

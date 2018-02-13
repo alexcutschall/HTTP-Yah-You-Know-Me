@@ -1,6 +1,5 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'faraday'
+require_relative 'test_helper'
+
 
 class ServerTest < Minitest::Test
   def test_response_includes_GET
