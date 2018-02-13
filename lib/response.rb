@@ -7,16 +7,8 @@ class Response
   def initialize(server)
     @server = server
     @hello_counter = 0
-    @output = nil
   end
 
-  def headers
-    headers = ["http/1.1 200 ok",
-                "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-                "server: ruby",
-                "content-type: text/html; charset=iso-8859-1",
-                "content-length: #{@output.length}\r\n\r\n"].join("\r\n")
-  end
 
   def debug_information
     verb     = "#{server.request_lines[0].split(" ")[0]}"
@@ -37,26 +29,44 @@ class Response
     end
   end
 
+  def handle_get_requests
+    if path == "/hello"
+      hello
+    elsif path == "/"
+      debug_page
+    elsif path == "/datetime"
+      date_time
+    elsif path == "/shutdown"
+      shutdown
+    else
+      word_search
+    end
+  end
+
+  def handle_post_requests
+  server.request_lines[3]
+  binding.pry
+  end
+
   def hello
-    @output = "Hello World! (#{@hello_counter})"
-    headers
-    server.client.puts headers
-    server.client.puts @output
+    response("Hello World! (#{@hello_counter})")
     @hello_counter += 1
+    server.start
   end
 
   def debug_page
-    @output = "#{debug_information}"
-    headers
-    server.client.puts headers
-    server.client.puts @output
+    response(debug_information)
+    server.start
   end
 
   def date_time
-    @output = "#{Time.now.strftime('%I:%M on %A, %B %d, %Y')}"
-    headers
-    server.client.puts headers
-    server.client.puts @output
+    response(Time.now.strftime('%I:%M on %A, %B %d, %Y'))
+    server.start
+  end
+
+  def shutdown
+    response("Total Requests: #{server.total_requests}")
+    server.server_loop = false
   end
 
 #put into a separate class? It ONLY takes two params like this. Need to refactor
@@ -75,20 +85,8 @@ class Response
       end
     end.join("\n")
 
-    @output = "#{result}"
-    headers
-    server.client.puts headers
-    server.client.puts @output
+    response(result)
   end
-
-    def shutdown
-      @output = "Total Requests: #{server.total_requests}"
-      headers
-      server.client.puts headers
-      server.client.puts @output
-      server.server_loop = false
-    end
-
 
   def verb
     "#{server.request_lines[0].split(" ")[0]}"
@@ -98,26 +96,15 @@ class Response
     "#{server.request_lines[0].split(" ")[1]}"
   end
 
-  def handle_get_requests
-    if path == "/hello"
-      hello
-      server.start
-    elsif path == "/"
-      debug_page
-      server.start
-    elsif path == "/datetime"
-      date_time
-      server.start
-    elsif path == "/shutdown"
-      shutdown
-    else path == "/word"
-      word_search
-      server.start
-    end
+  def response(body)
+    output = "<html><head></head><body>#{body}</body></html>"
+    headers = ["http/1.1 200 ok",
+          "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+          "server: ruby",
+          "content-type: text/html; charset=iso-8859-1",
+          "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+    server.client.puts headers
+    server.client.puts output
   end
 
-  def handle_post_requests
-  server.request_lines[3]
-  binding.pry
-  end
 end
