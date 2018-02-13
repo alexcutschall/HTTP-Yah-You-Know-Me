@@ -9,7 +9,6 @@ class Response
     @hello_counter = 0
   end
 
-
   def debug_information
     verb     = "#{server.request_lines[0].split(" ")[0]}"
     path     = "#{server.request_lines[0].split(" ")[1]}"
@@ -19,33 +18,6 @@ class Response
     origin   = "#{server.request_lines[1][6..14]}"
 
     "<pre>\nVerb: #{verb}\nPath: #{path}\nProtocol: #{protocol}\nHost: #{host}\nPort: #{port}\nOrigin: #{origin}</pre>"
-  end
-
-  def handle_requests
-    if verb == "GET"
-      handle_get_requests
-    else
-      handle_post_requests
-    end
-  end
-
-  def handle_get_requests
-    if path == "/hello"
-      hello
-    elsif path == "/"
-      debug_page
-    elsif path == "/datetime"
-      date_time
-    elsif path == "/shutdown"
-      shutdown
-    else
-      word_search
-    end
-  end
-
-  def handle_post_requests
-  server.request_lines[3]
-  binding.pry
   end
 
   def hello
@@ -88,14 +60,6 @@ class Response
     response(result)
   end
 
-  def verb
-    "#{server.request_lines[0].split(" ")[0]}"
-  end
-
-  def path
-    "#{server.request_lines[0].split(" ")[1]}"
-  end
-
   def response(body)
     output = "<html><head></head><body>#{body}</body></html>"
     headers = ["http/1.1 200 ok",
@@ -106,5 +70,4 @@ class Response
     server.client.puts headers
     server.client.puts output
   end
-
 end

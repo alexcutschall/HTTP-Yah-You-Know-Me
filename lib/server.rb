@@ -1,6 +1,7 @@
 require 'pry'
 require 'socket'
-require_relative 'response.rb'
+require './lib/response.rb'
+require './lib/controller.rb'
 
 class Server
   attr_reader   :request_lines,
@@ -15,6 +16,7 @@ class Server
     @request_lines  = []
     @hello_counter  = 0
     @response       = Response.new(self)
+    @controller     = Controller.new(self)
     @total_requests = 0
     @server_loop    = true
   end
@@ -35,7 +37,7 @@ class Server
       puts "Sent response"
 
       @total_requests += 1
-      response.handle_requests
+      @controller.handle_requests
     end
     @client.close
   end
