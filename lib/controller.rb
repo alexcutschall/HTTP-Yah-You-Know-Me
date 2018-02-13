@@ -1,10 +1,15 @@
+require './lib/response'
+require './lib/game'
+
 class Controller
   attr_reader :server,
-              :response
+              :response,
+              :game
 
   def initialize(server)
-    @server = server
+    @server   = server
     @response = Response.new(server)
+    @game     = Game.new(server)
   end
 
   def path
@@ -39,6 +44,8 @@ class Controller
 
   def handle_post_requests
   server.request_lines[3]
-  binding.pry
-  end
+    if path == "/start_game"
+       game.start_game
+     end
+   end
 end

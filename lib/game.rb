@@ -1,3 +1,20 @@
+require './lib/response'
+
+class Game
+
+  def initialize(server)
+    @number = rand(0..100)
+    @server = server
+    @response = Response.new(server)
+  end
+
+  def start_game
+    @response.response("Good luck!")
+    binding.pry
+  end
+
+end
+
 # 1) Pick a random number between 0 and 100
 # 2) player can make a new guess by sending a Post request containing
 #the number they want to guess
