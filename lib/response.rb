@@ -53,12 +53,15 @@ class Response
     server.client.puts @output
   end
 
+#put into a separate class?
   def word_search
+    word_array = []
     word = server.request_lines[0].split(" ")[1].split("?")
-    word_popped = word.shift
+    word_array << word1 = word[1].split("&")[0].split("=")[1]
+    word_array <<word[1].split("&")[1].split("=")[1]
 
     file = File.read('/usr/share/dict/words').split("\n")
-    result = word.map do |word|
+    result = word_array.map do |word|
       if file.include?(word)
         "#{word} is a known word"
       else
@@ -66,10 +69,10 @@ class Response
       end
     end.join("\n")
 
-    output = "#{result}"
-    # headers
-    # server.client.puts headers
-    server.client.puts output
+    @output = "#{result}"
+    headers
+    server.client.puts headers
+    server.client.puts @output
   end
 
     def shutdown
