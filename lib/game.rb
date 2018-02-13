@@ -1,23 +1,57 @@
 require './lib/response'
 
 class Game
+  attr_reader :server,
+              :guesses
 
   def initialize(server)
-    @number = rand(0..100)
-    @server = server
-    @response = Response.new(server)
+    @number            = rand(0..100)
+    @server            = server
+    @response          = Response.new(server)
+    @guesses           = 0
+    @number_guess      = 0
   end
 
   def start_game
     @response.response("Good luck!")
-    binding.pry
+    server.start
+  end
+
+  def guess
+    guess = server.request_lines[0].split(" ")[1]
+    @number_guess = guess.split("=")[1].to_i
+    if @number_guess == @number
+      @guesses += 1
+      @response.response("You got it correct!")
+    elsif @number_guess < @number
+      @guesses += 1
+      @response.response("You are too low!")
+    else
+      @guesses += 1
+      @response.response("You are too high!")
+    end
+    status
+    server.start
+  end
+
+  def status
+    if @number_guess == @number
+      @status = "You got it correct!"
+    elsif @number_guess < @number
+      @status = "You are too low!"
+    else
+      @status = "You are too high!"
+  end
+end
+
+
+  def review
+    @response.response("\nMost Recent Guess: #{@number_guess}\nNumber of Guesses: #{@guesses}\nStatus: #{@status}\n")
+    server.start
   end
 
 end
 
-# 1) Pick a random number between 0 and 100
-# 2) player can make a new guess by sending a Post request containing
-#the number they want to guess
 # 3) When the player requests the Game path, server should show
 #information about game like number of guess, most recent guess,
 #whether it was too high or low or correct

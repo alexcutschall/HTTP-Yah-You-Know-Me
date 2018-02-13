@@ -37,6 +37,8 @@ class Controller
       response.date_time
     elsif path == "/shutdown"
       response.shutdown
+    elsif path == "/game"
+      game.review
     else
       response.word_search
     end
@@ -46,6 +48,8 @@ class Controller
   server.request_lines[3]
     if path == "/start_game"
        game.start_game
+    else
+       game.guess
      end
    end
 end
