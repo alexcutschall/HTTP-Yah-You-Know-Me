@@ -103,7 +103,13 @@ class Response
   end
 
   def not_found
-    response("Sorry, we don't know where that is!", {status: "http/1.1 404 Not "})
+    response("Sorry, we don't know where that is!", {status: "http/1.1 404 Not Found"})
+    server.start
+  end
+
+  def force_error
+    response("Internal Server Error", {status: "http/1.1 500 Internal Server Error"})
+    server.start
   end
 
   def response(body, status_input = {})

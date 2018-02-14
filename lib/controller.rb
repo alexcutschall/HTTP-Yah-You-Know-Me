@@ -47,6 +47,8 @@ class Controller
       response.game
     elsif path == "/word"
       response.word_search
+    elsif path == "/force_error"
+      response.force_error
     else
       response.not_found
     end
@@ -58,7 +60,6 @@ class Controller
     elsif path.include?("/game")
        response.post_game(guess)
     else
-      binding.pry
        response.not_found
      end
      server.start
