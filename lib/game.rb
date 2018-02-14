@@ -10,7 +10,6 @@ class Game
     @number_guess      = 0
   end
 
-
   def guess(user_guess)
     @number_guess = user_guess.to_i
     if @number_guess == @random_number

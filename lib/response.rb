@@ -64,13 +64,16 @@ class Response
 
   def start_game
     if @game_started == true
-      response("You already have a game going!")
-      # {status: "http/1.1 403 Forbidden"}
+      response("You already have a game going!", {status: "http/1.1 403 Forbidden"})
     else
        @game = Game.new
        @game_started = true
-       response("Good Luck!")
-       # {status: "http/1.1 301 Moved Permanently"}
+       headers = ["HTTP/1.1 302 redirect",
+                  "location: /game",
+                  "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                  "server: ruby\r\n\r\n"].join("\r\n")
+
+       server.client.puts headers
      end
   end
 
@@ -97,6 +100,10 @@ class Response
       response("You haven't started a game yet! Make a post request to /start_game.",
                {status: "http/1.1 403 Forbidden"})
     end
+  end
+
+  def not_found
+    response("Sorry, we don't know where that is!", {status: "http/1.1 404 Not "})
   end
 
   def response(body, status_input = {})

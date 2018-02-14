@@ -45,16 +45,21 @@ class Controller
       response.shutdown
     elsif path == "/game"
       response.game
-    else
+    elsif path == "/word"
       response.word_search
+    else
+      response.not_found
     end
   end
 
   def handle_post_requests
     if path == "/start_game"
        response.start_game
-    else
+    elsif path.include?("/game")
        response.post_game(guess)
+    else
+      binding.pry
+       response.not_found
      end
      server.start
    end
