@@ -1,6 +1,6 @@
 require 'socket'
 require 'pry'
-require '.lib/game'
+require './lib/game'
 
 class Response
   attr_reader :server
@@ -63,12 +63,14 @@ class Response
   end
 
   def start_game
-    if @game_started
-      response("You already have a game going!" {status: "http/1.1 403 Forbidden"})
+    if @game_started == true
+      response("You already have a game going!")
+      # {status: "http/1.1 403 Forbidden"}
     else
        @game = Game.new
        @game_started = true
-       response("Good Luck!" {status: "http/1.1 301 Moved Permanently"})
+       response("Good Luck!")
+       # {status: "http/1.1 301 Moved Permanently"}
      end
   end
 
@@ -76,32 +78,36 @@ class Response
     if @game_started == true
        response(@game.review)
     else
-      response("You haven't started a game yet! Make a post request to /start_game."
+      response("You haven't started a game yet! Make a post request to /start_game.",
               {status: "http/1.1 403 Forbidden"})
     end
+    server.start
   end
 
   def post_game(user_guess)
     if @game_started == true
        @game.guess(user_guess)
-       headers = ["http/1.1 302 redirect", "location: /game",
+       headers = ["HTTP/1.1 302 redirect",
+                  "location: /game",
                   "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-                  "server: ruby"]
-       server.client.puts headers
+                  "server: ruby\r\n\r\n"].join("\r\n")
 
+       server.client.puts headers
     else
-      response({status: "http/1.1 403 Forbidden"})
-    end 
+      response("You haven't started a game yet! Make a post request to /start_game.",
+               {status: "http/1.1 403 Forbidden"})
+    end
   end
 
-  def response(body, headers = {})
+  def response(body, status_input = {})
     output = "<html><head></head><body>#{body}</body></html>"
-    status = headers[:status] || "http/1.1 200 ok"
+    status = status_input[:status] || "http/1.1 200 ok"
     headers = [status,
               "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
               "server: ruby",
               "content-type: text/html; charset=iso-8859-1",
               "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+
     server.client.puts headers
     server.client.puts output
   end

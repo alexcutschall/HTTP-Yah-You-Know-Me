@@ -9,7 +9,6 @@ class Controller
   def initialize(server)
     @server   = server
     @response = Response.new(server)
-    @game     = Game.new
   end
 
   def path
@@ -18,6 +17,11 @@ class Controller
 
   def verb
     "#{server.request_lines[0].split(" ")[0]}"
+  end
+
+  def guess
+    split_guess = server.request_lines[0].split(" ")[1]
+    split_guess.split("=")[1]
   end
 
   def handle_requests
@@ -40,7 +44,7 @@ class Controller
     elsif path == "/shutdown"
       response.shutdown
     elsif path == "/game"
-      game.review
+      response.game
     else
       response.word_search
     end
@@ -50,8 +54,7 @@ class Controller
     if path == "/start_game"
        response.start_game
     else
-       user_guess = server.request_lines[3].split(" ")[1].to_i
-       response.post_game(user_guess)
+       response.post_game(guess)
      end
      server.start
    end
