@@ -1,5 +1,6 @@
 require 'socket'
 require 'pry'
+require '.lib/game'
 
 class Response
   attr_reader :server
@@ -7,6 +8,7 @@ class Response
   def initialize(server)
     @server = server
     @hello_counter = 0
+    @game_started = false
   end
 
   def debug_information
@@ -60,13 +62,46 @@ class Response
     response(result)
   end
 
-  def response(body)
+  def start_game
+    if @game_started
+      response("You already have a game going!" {status: "http/1.1 403 Forbidden"})
+    else
+       @game = Game.new
+       @game_started = true
+       response("Good Luck!" {status: "http/1.1 301 Moved Permanently"})
+     end
+  end
+
+  def game
+    if @game_started == true
+       response(@game.review)
+    else
+      response("You haven't started a game yet! Make a post request to /start_game."
+              {status: "http/1.1 403 Forbidden"})
+    end
+  end
+
+  def post_game(user_guess)
+    if @game_started == true
+       @game.guess(user_guess)
+       headers = ["http/1.1 302 redirect", "location: /game",
+                  "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+                  "server: ruby"]
+       server.client.puts headers
+
+    else
+      response({status: "http/1.1 403 Forbidden"})
+    end 
+  end
+
+  def response(body, headers = {})
     output = "<html><head></head><body>#{body}</body></html>"
-    headers = ["http/1.1 200 ok",
-          "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-          "server: ruby",
-          "content-type: text/html; charset=iso-8859-1",
-          "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+    status = headers[:status] || "http/1.1 200 ok"
+    headers = [status,
+              "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+              "server: ruby",
+              "content-type: text/html; charset=iso-8859-1",
+              "content-length: #{output.length}\r\n\r\n"].join("\r\n")
     server.client.puts headers
     server.client.puts output
   end

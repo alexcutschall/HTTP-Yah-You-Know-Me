@@ -9,7 +9,7 @@ class Controller
   def initialize(server)
     @server   = server
     @response = Response.new(server)
-    @game     = Game.new(server)
+    @game     = Game.new
   end
 
   def path
@@ -24,6 +24,8 @@ class Controller
     if verb == "GET"
       handle_get_requests
     else
+      # content_length = server.request_lines[3].split(" ")[1].to_i
+      # client_body = server.client.read(content_length)
       handle_post_requests
     end
   end
@@ -45,11 +47,12 @@ class Controller
   end
 
   def handle_post_requests
-  server.request_lines[3]
     if path == "/start_game"
-       game.start_game
+       response.start_game
     else
-       game.guess
+       user_guess = server.request_lines[3].split(" ")[1].to_i
+       response.post_game(user_guess)
      end
+     server.start
    end
 end
