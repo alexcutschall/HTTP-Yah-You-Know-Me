@@ -36,24 +36,6 @@ class Response
     server.server_loop = false
   end
 
-  def word_search
-    word_array = []
-    word = server.request_lines[0].split(" ")[1].split("?")
-    word_array << word1 = word[1].split("&")[0].split("=")[1]
-    word_array <<word[1].split("&")[1].split("=")[1]
-
-    file = File.read('/usr/share/dict/words').split("\n")
-    result = word_array.map do |word|
-      if file.include?(word)
-        "#{word} is a known word"
-      else
-        "#{word} is not a known word"
-      end
-    end.join("\n")
-
-    response(result)
-  end
-
   def start_game
     if @game_started == true
       response("You already have a game going!", {status: "http/1.1 403 Forbidden"})
