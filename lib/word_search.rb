@@ -12,7 +12,7 @@ class WordSearch
       word_array << word.split("&")[0].split("=")[1]
       word_array << word.split("&")[1].split("=")[1]
     else
-      word_array << word.split("&")[0].split("=")[1]
+      word_array << word.split("=")[1]
     end
     word_array
   end

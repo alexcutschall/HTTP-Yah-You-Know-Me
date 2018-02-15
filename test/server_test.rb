@@ -1,4 +1,5 @@
 require_relative 'test_helper'
+require './lib/response'
 
 
 class ServerTest < Minitest::Test
