@@ -1,5 +1,4 @@
 require './test/test_helper'
-
 require './lib/word_search'
 
 class WordSearchTest < Minitest::Test
@@ -16,6 +15,6 @@ class WordSearchTest < Minitest::Test
   end
 
   def test_seach_can_take_two_words
-    assert_equal ["apple is a known word.", "bana is not a known word."], @word_search.words("/word?word_1=apple&word_2=bana")
+    assert_equal "apple is a known word.""\n""bana is not a known word.", @word_search.words("/word?word_1=apple&word_2=bana")
   end
 end
