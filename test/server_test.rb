@@ -21,4 +21,14 @@ class ServerTest < Minitest::Test
     request = Faraday.get('http://127.0.0.1:9292/word?apple?ban')
     assert request.body.include?('known')
   end
+
+  def test_prints_not_found_if_wrong_path
+    request = Faraday.get('http://127.0.0.1:9292/sleepy')
+    assert request.body.include?('Sorry')
+  end
+
+  def test_can_force_an_error
+    request = Faraday.get('http://127.0.0.1:9292/force_error')
+    assert request.body.include?('Internal')
+  end
 end

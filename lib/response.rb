@@ -19,17 +19,14 @@ class Response
   def hello
     response("Hello World! (#{@hello_counter})")
     @hello_counter += 1
-    #
   end
 
   def debug_page
     response(debug_information)
-    #
   end
 
   def date_time
     response(Time.now.strftime('%I:%M on %A, %B %d, %Y'))
-    # #
   end
 
   def shutdown
@@ -64,7 +61,6 @@ class Response
       response("You haven't started a game yet! Make a post request to /start_game.",
               {status: "http/1.1 403 Forbidden"})
     end
-    #
   end
 
   def post_game(guess)
@@ -84,12 +80,10 @@ class Response
 
   def not_found
     response("Sorry, we don't know where that is!", {status: "http/1.1 404 Not Found"})
-    #
   end
 
   def force_error
     response("Internal Server Error", {status: "http/1.1 500 Internal Server Error"})
-    #
   end
 
   def response(body, status_input = {})
