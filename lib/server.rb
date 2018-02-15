@@ -22,9 +22,10 @@ class Server
   end
 
   def start
-    @request_lines = []
+
 
     while @server_loop
+      @request_lines = []
       @client = server.accept
 
       puts "Ready for Request"
@@ -36,7 +37,7 @@ class Server
 
       @total_requests += 1
       @controller.handle_requests
-      
+
       @client.close
     end
 

@@ -45,8 +45,8 @@ class Controller
       response.shutdown
     elsif path == "/game"
       response.game
-    elsif path == "/word"
-      response.word_search
+    elsif path.include?"/word"
+      response.word_search(path)
     elsif path == "/force_error"
       response.force_error
     else

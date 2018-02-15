@@ -1,6 +1,7 @@
 require 'socket'
 require 'pry'
 require './lib/game'
+require './lib/word_search'
 
 class Response
   attr_reader :server
@@ -34,6 +35,11 @@ class Response
   def shutdown
     response("Total Requests: #{server.total_requests}")
     server.server_loop = false
+  end
+
+  def word_search(path)
+    word_search = WordSearch.new
+    response(word_search.words(path))
   end
 
   def start_game
