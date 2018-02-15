@@ -62,6 +62,5 @@ class Controller
     else
        response.not_found
      end
-     server.start
    end
 end

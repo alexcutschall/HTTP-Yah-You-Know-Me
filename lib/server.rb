@@ -23,23 +23,23 @@ class Server
 
   def start
     @request_lines = []
-    @client = server.accept
 
     while @server_loop
+      @client = server.accept
 
       puts "Ready for Request"
       while line = client.gets and !line.chomp.empty?
         @request_lines << line.chomp
       end
 
-      puts "Received request"
-
       puts "Sent response"
 
       @total_requests += 1
       @controller.handle_requests
+      
+      @client.close
     end
-    @client.close
+
   end
 
 end

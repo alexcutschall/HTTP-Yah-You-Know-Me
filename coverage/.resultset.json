@@ -1,0 +1,41 @@
+{
+  "Unit Tests": {
+    "coverage": {
+      "/Users/alexcutschall/turing/1module/projects/HTTP-Yah-You-Know-Me/lib/word_search.rb": [
+        1,
+        null,
+        1,
+        4,
+        4,
+        null,
+        null,
+        null,
+        1,
+        3,
+        3,
+        3,
+        3,
+        null,
+        null,
+        1,
+        3,
+        2,
+        null,
+        1,
+        null,
+        null,
+        null,
+        1,
+        1,
+        2,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1
+      ]
+    },
+    "timestamp": 1518713293
+  }
+}

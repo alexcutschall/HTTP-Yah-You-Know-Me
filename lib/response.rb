@@ -12,54 +12,28 @@ class Response
   end
 
   def debug_information
-    verb     = "#{server.request_lines[0].split(" ")[0]}"
-    path     = "#{server.request_lines[0].split(" ")[1]}"
-    protocol = "#{server.request_lines[0].split(" ")[2]}"
-    host     = "#{server.request_lines[1][6..14]}"
-    port     = "#{server.request_lines[1][-4..-1]}"
-    origin   = "#{server.request_lines[1][6..14]}"
-
-    "<pre>\nVerb: #{verb}\nPath: #{path}\nProtocol: #{protocol}\nHost: #{host}\nPort: #{port}\nOrigin: #{origin}</pre>"
+    "<pre>\n#{server.request_lines.join("\n")}\n</pre>"
   end
 
   def hello
     response("Hello World! (#{@hello_counter})")
     @hello_counter += 1
-    server.start
+    #
   end
 
   def debug_page
     response(debug_information)
-    server.start
+    #
   end
 
   def date_time
     response(Time.now.strftime('%I:%M on %A, %B %d, %Y'))
-    server.start
+    # #
   end
 
   def shutdown
     response("Total Requests: #{server.total_requests}")
     server.server_loop = false
-  end
-
-#put into a separate class? It ONLY takes two params like this. Need to refactor
-  def word_search
-    word_array = []
-    word = server.request_lines[0].split(" ")[1].split("?")
-    word_array << word1 = word[1].split("&")[0].split("=")[1]
-    word_array <<word[1].split("&")[1].split("=")[1]
-
-    file = File.read('/usr/share/dict/words').split("\n")
-    result = word_array.map do |word|
-      if file.include?(word)
-        "#{word} is a known word"
-      else
-        "#{word} is not a known word"
-      end
-    end.join("\n")
-
-    response(result)
   end
 
   def start_game
@@ -84,7 +58,7 @@ class Response
       response("You haven't started a game yet! Make a post request to /start_game.",
               {status: "http/1.1 403 Forbidden"})
     end
-    server.start
+    #
   end
 
   def post_game(user_guess)
@@ -104,12 +78,12 @@ class Response
 
   def not_found
     response("Sorry, we don't know where that is!", {status: "http/1.1 404 Not Found"})
-    server.start
+    #
   end
 
   def force_error
     response("Internal Server Error", {status: "http/1.1 500 Internal Server Error"})
-    server.start
+    #
   end
 
   def response(body, status_input = {})
