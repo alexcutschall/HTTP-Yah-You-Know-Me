@@ -15,10 +15,16 @@ class WordSearch
 
   def search(word)
       if @dictionary.include?(word)
-        "#{word} is a known word"
+        "#{word} is a known word."
       else
-        "#{word} is not a known word"
+        "#{word} is not a known word."
       end
+  end
+
+  def words(path)
+    find_word(path).map do |word|
+      search(word)
+    end
   end
 end
 

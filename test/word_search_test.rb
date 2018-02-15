@@ -12,9 +12,11 @@ class WordSearchTest < Minitest::Test
   end
 
   def test_can_find_word
-    assert_equal "test is a known word", @word_search.search('test')
+    assert_equal "test is a known word.", @word_search.search('test')
   end
 
-
+  def test_seach_can_take_two_words
+    assert_equal ["apple is a known word.", "bana is not a known word."], @word_search.words("/word?word_1=apple&word_2=bana")
+  end
 
 end
