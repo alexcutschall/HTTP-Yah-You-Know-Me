@@ -67,9 +67,9 @@ class Response
     #
   end
 
-  def post_game(user_guess)
+  def post_game(guess)
     if @game_started == true
-       @game.guess(user_guess)
+       @game.guess(guess)
        headers = ["HTTP/1.1 302 redirect",
                   "location: /game",
                   "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",

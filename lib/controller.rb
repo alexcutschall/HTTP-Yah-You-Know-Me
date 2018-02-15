@@ -20,17 +20,16 @@ class Controller
   end
 
   def guess
-    split_guess = server.request_lines[0].split(" ")[1]
-    split_guess.split("=")[1]
+    content_length = server.request_lines[3].split(" ")[1].to_i
+    client_body = server.client.read(content_length)
+    guess = client_body.split[-2]
   end
 
   def handle_requests
     if verb == "GET"
       handle_get_requests
     else
-      # content_length = server.request_lines[3].split(" ")[1].to_i
-      # client_body = server.client.read(content_length)
-      handle_post_requests
+      handle_post_requests(guess)
     end
   end
 
@@ -54,7 +53,7 @@ class Controller
     end
   end
 
-  def handle_post_requests
+  def handle_post_requests(guess)
     if path == "/start_game"
        response.start_game
     elsif path.include?("/game")

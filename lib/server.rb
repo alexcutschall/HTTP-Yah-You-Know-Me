@@ -23,7 +23,6 @@ class Server
 
   def start
 
-
     while @server_loop
       @request_lines = []
       @client = server.accept
@@ -40,9 +39,7 @@ class Server
 
       @client.close
     end
-
   end
-
 end
 
 server = Server.new
