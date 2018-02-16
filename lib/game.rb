@@ -25,6 +25,8 @@ class Game
   end
 
   def review
-    "\nMost Recent Guess: #{@number_guess}\nNumber of Guesses: #{@guesses}\nStatus: #{@status}\n"
+    "\nMost Recent Guess: #{@number_guess}\n" +
+    "Number of Guesses: #{@guesses}\n" +
+    "Status: #{@status}\n"
   end
 end
