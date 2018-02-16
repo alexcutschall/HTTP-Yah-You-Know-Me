@@ -14,27 +14,27 @@
       <img src="./assets/0.10.2/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2018-02-16T06:23:15-07:00">2018-02-16T06:23:15-07:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2018-02-16T06:34:44-07:00">2018-02-16T06:34:44-07:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">62.9%</span></span>
+    (<span class="covered_percent"><span class="red">63.93%</span></span>
      covered at
      <span class="covered_strength">
        <span class="red">
-         0.86
+         0.88
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>5</b> files in total.
-    <b>124</b> relevant lines. 
+    <b>122</b> relevant lines. 
     <span class="green"><b>78</b> lines covered</span> and
-    <span class="red"><b>46</b> lines missed </span>
+    <span class="red"><b>44</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -52,12 +52,12 @@
       
       <tr>
         <td class="strong"><a href="#340f33b25287a335fa3c9db9b75eadb056e2c4d1" class="src_link" title="lib/game.rb">lib/game.rb</a></td>
-        <td class="red strong">31.58 %</td>
+        <td class="red strong">35.29 %</td>
         <td>30</td>
-        <td>19</td>
+        <td>17</td>
         <td>6</td>
-        <td>13</td>
-        <td>0.3</td>
+        <td>11</td>
+        <td>0.4</td>
       </tr>
       
       <tr>
@@ -119,11 +119,11 @@
         <div class="source_table" id="340f33b25287a335fa3c9db9b75eadb056e2c4d1">
   <div class="header">
     <h3>lib/game.rb</h3>
-    <h4><span class="red">31.58 %</span> covered</h4>
+    <h4><span class="red">35.29 %</span> covered</h4>
     <div>
-      <b>19</b> relevant lines. 
+      <b>17</b> relevant lines. 
       <span class="green"><b>6</b> lines covered</span> and
-      <span class="red"><b>13</b> lines missed.</span>
+      <span class="red"><b>11</b> lines missed.</span>
     </div>
   </div>
   
@@ -223,79 +223,79 @@
         <li class="missed" data-hits="0" data-linenumber="16">
           
           
-          <code class="ruby">      @guesses += 1</code>
+          <code class="ruby">      @status = &#39;You got it correct!&#39;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="17">
           
           
-          <code class="ruby">      @status = &quot;You got it correct!&quot;</code>
+          <code class="ruby">    elsif @number_guess &lt; @random_number</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="18">
           
           
-          <code class="ruby">    elsif @number_guess &lt; @random_number</code>
+          <code class="ruby">      @status = &#39;You are too low!&#39;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="19">
-          
-          
-          <code class="ruby">      @guesses += 1</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="20">
-          
-          
-          <code class="ruby">      @status = &quot;You are too low!&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="21">
+        <li class="never" data-hits="" data-linenumber="19">
           
           
           <code class="ruby">    else</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="22">
+        <li class="missed" data-hits="0" data-linenumber="20">
           
           
-          <code class="ruby">      @guesses += 1</code>
+          <code class="ruby">      @status = &#39;You are too high!&#39;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="23">
-          
-          
-          <code class="ruby">      @status = &quot;You are too high!&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="24">
+        <li class="never" data-hits="" data-linenumber="21">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="25">
+        <li class="missed" data-hits="0" data-linenumber="22">
+          
+          
+          <code class="ruby">    @guesses += 1</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="23">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="26">
+        <li class="never" data-hits="" data-linenumber="24">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="27">
+        <li class="covered" data-hits="1" data-linenumber="25">
           <span class="hits">1</span>
           
           <code class="ruby">  def review</code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="26">
+          
+          
+          <code class="ruby">    &quot;\nMost Recent Guess: #{@number_guess}\n&quot; +</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="27">
+          
+          
+          <code class="ruby">    &quot;Number of Guesses: #{@guesses}\n&quot; +</code>
+        </li>
+      
         <li class="missed" data-hits="0" data-linenumber="28">
           
           
-          <code class="ruby">    &quot;\nMost Recent Guess: #{@number_guess}\nNumber of Guesses: #{@guesses}\nStatus: #{@status}\n&quot;</code>
+          <code class="ruby">    &quot;Status: #{@status}\n&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="29">

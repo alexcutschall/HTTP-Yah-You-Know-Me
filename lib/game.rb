@@ -13,15 +13,13 @@ class Game
   def guess(user_guess)
     @number_guess = user_guess.to_i
     if @number_guess == @random_number
-      @guesses += 1
-      @status = "You got it correct!"
+      @status = 'You got it correct!'
     elsif @number_guess < @random_number
-      @guesses += 1
-      @status = "You are too low!"
+      @status = 'You are too low!'
     else
-      @guesses += 1
-      @status = "You are too high!"
+      @status = 'You are too high!'
     end
+    @guesses += 1
   end
 
   def review
